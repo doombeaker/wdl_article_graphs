@@ -5,6 +5,12 @@ pen PEN_TENSOR_LINE = black;
 pen PEN_WITH_DATA = rgb("#f1c232");
 pen PEN_BLANK_DATA = palegray;
 pen PEN_BLUE_DATA = rgb("#32c1f1");
+pen PEN_UNIQUE_OP = rgb("#92ABF7");
+pen PEN_SPARSE_IDS = rgb("#003399");
+pen PEN_PULL_MODEL = rgb("#FF0033");
+pen PEN_PUSH_GRAD = rgb("#009966");
+pen PEN_ID2UNIQUE = defaultpen;
+pen PEN_UPDATE_MODEL = defaultpen;
 
 real R_OP = 1;
 real WIDTH_VARIABLE = 5;
@@ -16,6 +22,7 @@ real SPARSEIDS_GPU_Y_SPACE = 4;
 real SPARSEIDS_GPU_X_SPACE = 0.5;
 real WIDE_EMBEDDING_TABLE_W = 1;
 real WIDE_EMBEDDING_TABLE_SLICE_H = 1.7;
+real PS_Y_SPACE = 8;
 real TINY_PADDING = 0.1;
 
 struct CSparseIDs{
@@ -36,6 +43,22 @@ struct CSparseIDs{
         pfill_.push(pfill3);
     }
 };
+
+picture drawVecLinesAtRel(picture dst ... real[] rations){
+    picture pic;
+    pair ptLeftUp = point(dst, NW);
+    pair ptLeftDown = point(dst, SW);
+    pair ptRightUp = point(dst, NE);
+    pair ptRightDown = point(dst, SE);
+
+    path lineLeft = ptLeftUp--ptLeftDown;
+    path lineRight = ptRightUp--ptRightDown;
+    for(int i = 0; i < rations.length; ++i){
+        real ration = rations[i];
+        draw(pic, relpoint(lineLeft, ration)--relpoint(lineRight, ration), PEN_BLUE_DATA);
+    }
+    return pic;
+}
 
 picture getRect(string s = "", pair ptCenter=(0,0), 
                 real w = WIDTH_VARIABLE, real h = HEIGHT_VARIABLE, 
