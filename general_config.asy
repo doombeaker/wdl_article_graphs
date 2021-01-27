@@ -4,6 +4,7 @@ pen PEN_COMPUTE_OP = rgb("f13262");
 pen PEN_TENSOR_LINE = black;
 pen PEN_WITH_DATA = rgb("#f1c232");
 pen PEN_BLANK_DATA = palegray;
+pen PEN_BLUE_DATA = rgb("#32c1f1");
 
 real R_OP = 1;
 real WIDTH_VARIABLE = 5;
@@ -13,6 +14,9 @@ real SPARSEIDS_WIDTH = 2;
 real SPARSEIDS_SLICE_HEIGHT=0.5;
 real SPARSEIDS_GPU_Y_SPACE = 4;
 real SPARSEIDS_GPU_X_SPACE = 0.5;
+real WIDE_EMBEDDING_TABLE_W = 1;
+real WIDE_EMBEDDING_TABLE_SLICE_H = 1.7;
+real TINY_PADDING = 0.1;
 
 struct CSparseIDs{
     pair pos_;
@@ -51,7 +55,7 @@ picture getSparseIDs(CSparseIDs sparseIds,
   real slice_h = SPARSEIDS_SLICE_HEIGHT){
     picture pic;
     for(int i = 0; i < 4; ++i){
-        pair center = (0, -i*(1.2SPARSEIDS_SLICE_HEIGHT));
+        pair center = (0, -i*(0.1 + slice_h));
         picture sparseSlice = getRect("", center, 
         w,
         slice_h,
