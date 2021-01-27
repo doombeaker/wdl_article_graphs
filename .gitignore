@@ -1,3 +1,5 @@
 test.asy
 *.eps
 *.png
+*.aux
+*.log

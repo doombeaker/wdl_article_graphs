@@ -1,13 +1,6 @@
-size(20cm, 0);
-pen PEN_VARIABLE = rgb("add7ff");
-pen PEN_CAST_OP = rgb("ffc186");
-pen PEN_COMPUTE_OP = rgb("ff86c4");
-pen PEN_TENSOR_LINE = black;
+import general_config;
 
-real R_OP = 1;
-real WIDTH_VARIABLE = 5;
-real HEIGHT_VARIABLE = 1;
-real VERTICAL_PADDINNG = 6;
+size(20cm, 0);
 
 picture getRect(string s = "", pair ptCenter=(0,0), 
                 real w = WIDTH_VARIABLE, real h = HEIGHT_VARIABLE, 
@@ -30,6 +23,18 @@ picture getCircle(string s="", pair pos=(0,0), real r = R_OP, pen pdraw = defaul
     fill(pic, pt_circle, pfill);
     label(pic, s, pos, pdraw);
     return pic;
+}
+
+void _labelSBP(picture pic, picture item, string s0="", string s1=""){
+    label(pic, s0, point(item, N), 2E+N);
+    label(pic, s1,  point(item, S), 2E+S);
+}
+
+void labelSBPs(picture dst, picture[] items, 
+             string[] s0, string[] s1, int cnt){
+    for(int i = 0; i < cnt; ++i){
+        _labelSBP(dst, items[i], s0[i], s1[i]);
+    }
 }
 
 
@@ -164,7 +169,52 @@ picture getMainPic(){
     }
 
     draw(pic, point(vars_deep_pic_ary[6],W){left}..{left}point(vars_wideops_pic_ary[5], E), Arrow);
+    
+    string[] wide_labels0 = {
+        "",
+        "$B$",
+        "$PartialSum$",
+        "$PartialSum$",
+        "$PartialSum$",
+        "$S(0)$",
+        "$S(0)$"
+    };
+    string[] wide_labels1 = {
+        "$S(0)$",
+        "$B$",
+        "$PartialSum$",
+        "$PartialSum$",
+        "$PartialSum$",
+        "$S(0)$",
+        ""
+    };
+    labelSBPs(pic, vars_wide_pic_ary, 
+                wide_labels0, wide_labels1, 
+                wide_labels0.length);
 
+    string[] deep_labels0 = {
+        "",
+        "$B$",
+        "$S(2)$",
+        "$S(0)$",
+        "$S(0)$",
+        "$S(0)$",
+        "$S(0)$"
+    };
+    string[] deep_labels1 = {
+        "$S(0)$",
+        "$B$",
+        "$S(2)$",
+        "$S(0)$",
+        "$S(0)$",
+        "$S(0)$",
+        ""
+    };
+    labelSBPs(pic, vars_deep_pic_ary, 
+                deep_labels0, deep_labels1, 
+                deep_labels0.length);
+    label(pic, "$S(0)$", point(dense_fields, NW), 2W);
+    
     return pic;
 }
 
