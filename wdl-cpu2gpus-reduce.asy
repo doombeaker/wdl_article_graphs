@@ -2,40 +2,6 @@ import general_config;
 
 size(0, 15cm);
 
-struct CSparseIDs{
-    pair pos_;
-    pen pdraw_;
-    pen[] pfill_;
-
-    void operator init(pair pos=(0,0), pen pdraw=defaultpen,
-    pen pfill0=PEN_BLANK_DATA, 
-    pen pfill1=PEN_BLANK_DATA, 
-    pen pfill2=PEN_BLANK_DATA, 
-    pen pfill3=PEN_BLANK_DATA){
-        this.pos_ = pos;
-        this.pdraw_ = pdraw;
-        pfill_.push(pfill0);
-        pfill_.push(pfill1);
-        pfill_.push(pfill2);
-        pfill_.push(pfill3);
-    }
-};
-
-picture getSparseIDs(CSparseIDs sparseIds){
-    picture pic;
-    for(int i = 0; i < 4; ++i){
-        pair center = (0, -i*(1.2SPARSEIDS_SLICE_HEIGHT));
-        picture sparseSlice = getRect("", center, 
-        SPARSEIDS_WIDTH,
-        SPARSEIDS_SLICE_HEIGHT,
-        pdraw= sparseIds.pdraw_,
-        pfill= sparseIds.pfill_[i]
-        );
-        add(pic, sparseSlice);
-    }
-    return shift(sparseIds.pos_)*pic;
-}
-
 picture getMainPic(){
     picture pic;
     picture sparseIDsCpu = getSparseIDs(CSparseIDs((0,0), 
