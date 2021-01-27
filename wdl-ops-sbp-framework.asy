@@ -15,16 +15,6 @@ picture getRect(string s = "", pair ptCenter=(0,0),
   return shift(ptCenter)*pic;
 }
 
-picture getCircle(string s="", pair pos=(0,0), real r = R_OP, pen pdraw = defaultpen, pen pfill=PEN_COMPUTE_OP)
-{
-    picture pic;
-    path pt_circle = circle(pos, r);
-    draw(pic, pt_circle, pdraw);
-    fill(pic, pt_circle, pfill);
-    label(pic, s, pos, pdraw);
-    return pic;
-}
-
 void _labelSBP(picture pic, picture item, string s0="", string s1=""){
     label(pic, s0, point(item, N), 2E+N);
     label(pic, s1,  point(item, S), 2E+S);
@@ -214,6 +204,8 @@ picture getMainPic(){
                 deep_labels0, deep_labels1, 
                 deep_labels0.length);
     label(pic, "$S(0)$", point(dense_fields, NW), 2W);
+    label(pic, "$S(1)$", point(deep_embedding_table, NW), 2W);
+    label(pic, "$S(0)$", point(wide_embedding_table, NE), 2E);
     
     return pic;
 }
