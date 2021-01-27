@@ -8,11 +8,12 @@ struct CSparseIDs{
     pen[] pfill_;
 
     void operator init(pair pos=(0,0), pen pdraw=defaultpen,
-    pen pfill0=white, 
-    pen pfill1=white, 
-    pen pfill2=white, 
-    pen pfill3=white){
+    pen pfill0=PEN_BLANK_DATA, 
+    pen pfill1=PEN_BLANK_DATA, 
+    pen pfill2=PEN_BLANK_DATA, 
+    pen pfill3=PEN_BLANK_DATA){
         this.pos_ = pos;
+        this.pdraw_ = pdraw;
         pfill_.push(pfill0);
         pfill_.push(pfill1);
         pfill_.push(pfill2);
@@ -23,7 +24,7 @@ struct CSparseIDs{
 picture getSparseIDs(CSparseIDs sparseIds){
     picture pic;
     for(int i = 0; i < 4; ++i){
-        pair center = (0, -i*(1.1SPARSEIDS_SLICE_HEIGHT));
+        pair center = (0, -i*(1.2SPARSEIDS_SLICE_HEIGHT));
         picture sparseSlice = getRect("", center, 
         SPARSEIDS_WIDTH,
         SPARSEIDS_SLICE_HEIGHT,
@@ -37,7 +38,9 @@ picture getSparseIDs(CSparseIDs sparseIds){
 
 picture getMainPic(){
     picture pic;
-    picture sparseIDsCpu = getSparseIDs(CSparseIDs((0,0), pfill0 = PEN_WITH_DATA,
+    picture sparseIDsCpu = getSparseIDs(CSparseIDs((0,0), 
+                            pdraw = invisible,
+                            pfill0 = PEN_WITH_DATA,
                             pfill1 = PEN_WITH_DATA,
                             pfill2 = PEN_WITH_DATA,
                             pfill3 = PEN_WITH_DATA));
@@ -47,10 +50,10 @@ picture getMainPic(){
     pair pt2 = (0.5SPARSEIDS_WIDTH+SPARSEIDS_GPU_X_SPACE, SPARSEIDS_GPU_Y_SPACE);
     pair pt0 = shift(-SPARSEIDS_WIDTH-SPARSEIDS_GPU_X_SPACE, 0)*pt1;
     pair pt3 = shift(SPARSEIDS_WIDTH+SPARSEIDS_GPU_X_SPACE,0)*pt2;
-    picture sparseIDsGpu1 = getSparseIDs(CSparseIDs(pt1, pfill1 = PEN_WITH_DATA));
-    picture sparseIDsGpu2 = getSparseIDs(CSparseIDs(pt2, pfill2 = PEN_WITH_DATA));
-    picture sparseIDsGpu0 = getSparseIDs(CSparseIDs(pt0, pfill0 = PEN_WITH_DATA));
-    picture sparseIDsGpu3 = getSparseIDs(CSparseIDs(pt3, pfill3 = PEN_WITH_DATA));
+    picture sparseIDsGpu1 = getSparseIDs(CSparseIDs(pt1, pdraw=invisible, pfill1 = PEN_WITH_DATA));
+    picture sparseIDsGpu2 = getSparseIDs(CSparseIDs(pt2, pdraw=invisible, pfill2 = PEN_WITH_DATA));
+    picture sparseIDsGpu0 = getSparseIDs(CSparseIDs(pt0, pdraw=invisible, pfill0 = PEN_WITH_DATA));
+    picture sparseIDsGpu3 = getSparseIDs(CSparseIDs(pt3, pdraw=invisible, pfill3 = PEN_WITH_DATA));
 
     picture[] sparseIDsGpuAry;
     sparseIDsGpuAry.push(sparseIDsGpu0);
@@ -75,7 +78,8 @@ picture getMainPic(){
     picture[] BroadGPUsAry;
     for(int i = 0; i < ptAry.length; ++i){
         picture item;
-        item = getSparseIDs(CSparseIDs(ptAry[i], 
+        item = getSparseIDs(CSparseIDs(ptAry[i],
+                            pdraw = invisible,
                             pfill0 = PEN_WITH_DATA,
                             pfill1 = PEN_WITH_DATA,
                             pfill2 = PEN_WITH_DATA,
@@ -85,7 +89,7 @@ picture getMainPic(){
     }
     
     for(int i = 0; i < 4; ++i){
-        draw(pic, point(sparseIDsCpu, N){up}..{up}point(sparseIDsGpuAry[i], S), Arrow);
+        draw(pic, point(shift(0, SPARSEIDS_SLICE_HEIGHT)*sparseIDsCpu, N){up}.. tension 1.8 ..{up}point(sparseIDsGpuAry[i], S), Arrow);
     }
 
     pt0 = midpoint(point(BroadGPUsAry[1], E)--point(BroadGPUsAry[2], W));
@@ -96,7 +100,7 @@ picture getMainPic(){
     add(pic, allgatherOp);
 
     for(int i = 0; i < BroadGPUsAry.length; ++i){
-        draw(pic, point(sparseIDsGpuAry[i], N){up}.. tension 2 ..{up}point(allgatherOp, S), Arrow);
+        draw(pic, point(shift(0, SPARSEIDS_SLICE_HEIGHT)*sparseIDsGpuAry[i], N){up}.. tension 2 ..{up}point(allgatherOp, S), Arrow);
         draw(pic, point(allgatherOp, N){up}.. tension 2 ..{up}point(BroadGPUsAry[i], S), Arrow);
     }
 

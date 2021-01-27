@@ -3,6 +3,7 @@ pen PEN_CAST_OP = rgb("f1c232");
 pen PEN_COMPUTE_OP = rgb("f13262");
 pen PEN_TENSOR_LINE = black;
 pen PEN_WITH_DATA = rgb("#f1c232");
+pen PEN_BLANK_DATA = palegray;
 
 real R_OP = 1;
 real WIDTH_VARIABLE = 5;
@@ -17,6 +18,7 @@ picture getRect(string s = "", pair ptCenter=(0,0),
                 real w = WIDTH_VARIABLE, real h = HEIGHT_VARIABLE, 
                 pen pdraw = defaultpen,
                 pen pfill = defaultpen){
+  write("yaochi getRect:", pdraw);
   picture pic;
   pair d=(w,h);
   path box_path = box(-d/2,d/2);

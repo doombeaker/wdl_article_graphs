@@ -2,19 +2,6 @@ import general_config;
 
 size(20cm, 0);
 
-picture getRect(string s = "", pair ptCenter=(0,0), 
-                real w = WIDTH_VARIABLE, real h = HEIGHT_VARIABLE, 
-                pen pdraw = defaultpen,
-                pen pfill = defaultpen){
-  picture pic;
-  pair d=(w,h);
-  path box_path = box(-d/2,d/2);
-  draw(pic, box_path, pdraw);
-  fill(pic, box_path, pfill);
-  label(pic,s,(0,0));
-  return shift(ptCenter)*pic;
-}
-
 void _labelSBP(picture pic, picture item, string s0="", string s1=""){
     label(pic, s0, point(item, N), 2E+N);
     label(pic, s1,  point(item, S), 2E+S);
