@@ -142,6 +142,17 @@ picture getMainPic(){
     pair ptMiddle = relpoint(splitter, 0.5);
     draw(pic, shift(0, -0.6)*ptMiddle--shift(0, 0.6)*ptMiddle, Arrow);
 
+    path bszSparseidBrace = brace(point(SparsIDs[0], SW), point(SparsIDs[0], NW));
+    path vocSizeBrace = brace(point(EmbeddingTablesAry[0], SW), point(EmbeddingTablesAry[0], NW));
+    path modelParallelSizeBrace = brace(point(cubesAry[0], SW), point(cubesAry[0], NW));
+    
+    draw(pic, bszSparseidBrace);
+    draw(pic, modelParallelSizeBrace);
+    draw(pic, vocSizeBrace);
+    label(pic, "$batch~size$", midpoint(bszSparseidBrace), W);
+    label(pic, "$vocab~size$", midpoint(vocSizeBrace), 0.5W);
+    label(pic, "$batch~size$", midpoint(modelParallelSizeBrace), W);
+
     return pic;
 }
 
