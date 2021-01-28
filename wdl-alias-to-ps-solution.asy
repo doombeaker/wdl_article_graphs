@@ -10,16 +10,24 @@ picture getEmbedingTable(CSparseIDs sparseIds,
 
 picture getLegend(){
     picture pic;
-    real padding = 0.5;
+    real padding = -0.5;
     path linePath = (0,0)--(1.5,0);
-    path linePath2 = shift(0, padding)*linePath;
-    path linePath3 = shift(0, padding)*linePath2;
-    draw(pic, linePath, PEN_SPARSE_IDS);
-    draw(pic, linePath2, PEN_PULL_MODEL);
-    draw(pic, linePath3, PEN_PUSH_GRAD);
-    label(pic, "$Sparse~Ids$", midpoint(linePath), 5E);
-    label(pic, "$Pull~Model$",midpoint(linePath2), 5E);
-    label(pic, "$Push~Model$",midpoint(linePath3), 5E);
+    path[] lines;
+    lines.push(shift(0, padding)*linePath);
+    for(int i = 0; i < 4; ++i){
+        lines.push(shift(0, padding)*lines[lines.length-1]);
+    }
+    draw(pic, lines[0], PEN_ID2UNIQUE);
+    draw(pic, lines[1], PEN_SPARSE_IDS);
+    draw(pic, lines[2], PEN_PULL_MODEL);
+    draw(pic, lines[3], PEN_UPDATE_MODEL);
+    draw(pic, lines[4], PEN_PUSH_GRAD);
+
+    label(pic, "$To~Unique$", midpoint(lines[0]), 5E);
+    label(pic, "$Sparse~Ids$", midpoint(lines[1]), 5E);
+    label(pic, "$Pull~Model$",midpoint(lines[2]), 5E);
+    label(pic, "$Update~Model$",midpoint(lines[3]), 5E);
+    label(pic, "$Push~Grad$", midpoint(lines[4]), 5E);
     return pic;
 }
 
@@ -112,14 +120,18 @@ picture getMainPic(){
     path[] sparseIDsPathAry;
     path[] pullModelAry;
     path[] pushGradAry;
+    path[] updateModelAry;
     real uniqueDownPaddingRation = 0.04;
     real leftRationBegin = 0.3;
     for(int i=0; i < EmbeddingTablesAry.length; ++i){
         draw(pic, 
         point(SparseIDsAry[i],N)--relpoint(uniqeDownLine, leftRationBegin+i*uniqueDownPaddingRation), PEN_ID2UNIQUE, Arrow);
-        
-        draw(pic, 
-        relpoint(uniqeDownLine, 0.7+i*uniqueDownPaddingRation)--point(EmbeddingTablesAry[i],N), PEN_UPDATE_MODEL, Arrow);        
+
+        //center line of origin embedding
+        pair ptCenterUp = point(EmbeddingTablesAry[i], N);
+        pair ptCenterDown = point(EmbeddingTablesAry[i], S);
+        path centerLine = ptCenterUp--ptCenterDown;        
+        updateModelAry.push(relpoint(uniqeDownLine, 0.7+i*uniqueDownPaddingRation)--relpoint(centerLine, i*0.25));     
         
 
         // center line up to down
@@ -135,6 +147,13 @@ picture getMainPic(){
         draw(pic, sparseIDsPathAry[i], PEN_SPARSE_IDS, Arrow);
         draw(pic, pullModelAry[i], PEN_PULL_MODEL, Arrow);
         draw(pic, pushGradAry[i], PEN_PUSH_GRAD, Arrow);
+        draw(pic, updateModelAry[i], PEN_UPDATE_MODEL, Arrow);
+
+        label(pic, "$GPU"+string(i)+"$", point(boxAry[i], N), S);
+        label(pic, "$GPU"+string(i)+"$", point(SplitEmbedingAry[i], N), N);
+        label(pic, "$IDs$", point(SparseIDsAry[i], S), S);
+        label(pic, "$Embedding$", point(EmbeddingTablesAry[i], SW), NW);
+        label(pic, "$Embedding~Table$", point(SplitEmbedingAry[i], NW), W);
     }
 
     picture legendPic = shift(-8, 0)*shift(point(uniquePic, W))*getLegend();

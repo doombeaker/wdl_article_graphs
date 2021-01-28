@@ -9,8 +9,8 @@ pen PEN_UNIQUE_OP = rgb("#92ABF7");
 pen PEN_SPARSE_IDS = rgb("#003399");
 pen PEN_PULL_MODEL = rgb("#FF0033");
 pen PEN_PUSH_GRAD = rgb("#009966");
-pen PEN_ID2UNIQUE = defaultpen;
-pen PEN_UPDATE_MODEL = defaultpen;
+pen PEN_ID2UNIQUE = dashed;
+pen PEN_UPDATE_MODEL = dashdotted;
 
 real R_OP = 1;
 real WIDTH_VARIABLE = 5;
