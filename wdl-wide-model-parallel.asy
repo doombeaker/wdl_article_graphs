@@ -151,7 +151,7 @@ picture getMainPic(){
     label(pic, "$PartialSum$", relpoint(splitter, 0.5), 8S);
     
     pair ptMiddle = relpoint(splitter, 0.5);
-    draw(shift(0, -0.6)*ptMiddle--shift(0, 0.6)*ptMiddle, Arrow);
+    draw(pic, shift(0, -0.6)*ptMiddle--shift(0, 0.6)*ptMiddle, Arrow);
     
     add(pic, drawVecLinesAtRel(wideEmbeddingAry[0], 1/4*0.1, 1/4*0.5, 1/4*0.45, 1/4*0.7));
     add(pic, drawVecLinesAtRel(wideEmbeddingAry[1], 0.27, 0.3, 0.32, 0.44, 0.4, 0.33, 0.47));

@@ -24,6 +24,9 @@ real WIDE_EMBEDDING_TABLE_W = 1;
 real WIDE_EMBEDDING_TABLE_SLICE_H = 1.7;
 real PS_Y_SPACE = 8;
 real TINY_PADDING = 0.1;
+real CUBE_WIDTH = 2;
+real CUBE_HEIGHT = 1;
+real CUBES_VERTICAL_PADDING = 6;
 
 struct CSparseIDs{
     pair pos_;
@@ -82,6 +85,23 @@ picture getSparseIDs(CSparseIDs sparseIds,
         picture sparseSlice = getRect("", center, 
         w,
         slice_h,
+        pdraw= sparseIds.pdraw_,
+        pfill= sparseIds.pfill_[i]
+        );
+        add(pic, sparseSlice);
+    }
+    return shift(sparseIds.pos_)*pic;
+}
+
+picture getS1SparseIDs(CSparseIDs sparseIds,
+  real h = SPARSEIDS_WIDTH,
+  real slice_w = SPARSEIDS_SLICE_HEIGHT){
+    picture pic;
+    for(int i = 0; i < 4; ++i){
+        pair center = (i*(0.1 + slice_w), 0);
+        picture sparseSlice = getRect("", center, 
+        slice_w,
+        h,
         pdraw= sparseIds.pdraw_,
         pfill= sparseIds.pfill_[i]
         );
