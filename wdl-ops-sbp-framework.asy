@@ -43,6 +43,7 @@ picture getMainPic(){
         picture pic_item;
         write(wide_variables[i]);
         pic_item = getRect(wide_variables[i], (wide_x_pos, -i*VERTICAL_PADDINNG),
+        pdraw=white,
         pfill=PEN_VARIABLE);
         vars_wide_pic_ary.push(pic_item);
         add(pic, pic_item);
@@ -63,6 +64,7 @@ picture getMainPic(){
         picture pic_item;
         write(deep_variables[i]);
         pic_item = getRect(deep_variables[i], (deep_x_pos, -i*VERTICAL_PADDINNG),
+        pdraw=white,
         pfill=PEN_VARIABLE);
         vars_deep_pic_ary.push(pic_item);
         add(pic, pic_item);
@@ -82,8 +84,12 @@ picture getMainPic(){
     for(int i = 0; i < wide_ops.length; ++i){
         picture pic_item;
         pair ptCenter = midpoint(point(vars_wide_pic_ary[i], S)--point(vars_wide_pic_ary[i+1], N));
-        pic_item = getCircle(wide_ops[i].name_, ptCenter, pfill=wide_ops[i].fillp_);
-        add(pic, pic_item);
+        if(PEN_CAST_OP==wide_ops[i].fillp_){
+            pic_item = getCircle("",  ptCenter, r= 0.7*R_OP, pdraw=invisible ,pfill=wide_ops[i].fillp_);
+            label(pic, wide_ops[i].name_, point(pic_item, E),  E);
+        }else{
+            pic_item = getCircle(wide_ops[i].name_, ptCenter, pfill=wide_ops[i].fillp_);
+        }
         vars_wideops_pic_ary.push(pic_item);
     }
 
@@ -99,14 +105,29 @@ picture getMainPic(){
     for(int i = 0; i < deep_ops.length; ++i){
         picture pic_item;
         pair ptCenter = midpoint(point(vars_deep_pic_ary[i], S)--point(vars_deep_pic_ary[i+1], N));
-        pic_item = getCircle(deep_ops[i].name_, ptCenter, pfill=deep_ops[i].fillp_);
-        add(pic, pic_item);
+        if(PEN_CAST_OP==deep_ops[i].fillp_){
+            pic_item = getCircle("",  ptCenter, r= 0.7*R_OP, pdraw=invisible, pfill=deep_ops[i].fillp_);
+            label(pic, deep_ops[i].name_, point(pic_item, E),  E);
+        }else{
+            pic_item = getCircle(deep_ops[i].name_, ptCenter, pfill=deep_ops[i].fillp_);
+        }
         vars_deepops_pic_ary.push(pic_item);
     }
+
+    for(int i = 0; i < vars_deepops_pic_ary.length; ++i){
+        add(pic, vars_deepops_pic_ary[i]);
+    }
+
+
+    for(int i = 0; i < vars_wideops_pic_ary.length-1; ++i){
+        add(pic, vars_wideops_pic_ary[i]);
+    }
+    label(pic, "$sigmoid\_cross\_entropy\_with\_logits$", point(vars_wideops_pic_ary[vars_wideops_pic_ary.length-1], 0));
 
     picture wide_embedding_table = \
         getRect("$wide\_embedding\_table$", 
         point(vars_wideops_pic_ary[1], W)+(-3-WIDTH_VARIABLE/2, 0),
+        pdraw=white,
         pfill=PEN_VARIABLE);
     add(pic, wide_embedding_table);
     draw(pic, point(wide_embedding_table, E)--point(vars_wideops_pic_ary[1], W), Arrow);
@@ -114,6 +135,7 @@ picture getMainPic(){
     picture deep_embedding_table = \
         getRect("$deep\_embedding\_table$", 
         point(vars_deepops_pic_ary[1], E)+(3+WIDTH_VARIABLE/2, 0),
+        pdraw=white,
         pfill=PEN_VARIABLE);
     add(pic, deep_embedding_table);
     draw(pic, point(deep_embedding_table, W)--point(vars_deepops_pic_ary[1], E), Arrow);
@@ -121,6 +143,7 @@ picture getMainPic(){
     picture dense_fields = \
         getRect("$dense\_fields$", 
         point(vars_deepops_pic_ary[4], E)+(3+WIDTH_VARIABLE/2, 0),
+        pdraw=white,
         pfill=PEN_VARIABLE);
     add(pic, dense_fields);
     draw(pic, point(dense_fields, W)--point(vars_deepops_pic_ary[4], E), Arrow);

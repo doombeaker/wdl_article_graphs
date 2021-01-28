@@ -1,6 +1,6 @@
 pen PEN_VARIABLE = rgb("#32c1f1");
-pen PEN_CAST_OP = rgb("f1c232");
-pen PEN_COMPUTE_OP = rgb("f13262");
+pen PEN_CAST_OP = Yellow;
+pen PEN_COMPUTE_OP = rgb("FFFFFF");
 pen PEN_TENSOR_LINE = black;
 pen PEN_WITH_DATA = rgb("#f1c232");
 pen PEN_BLANK_DATA = palegray;
@@ -12,7 +12,7 @@ pen PEN_PUSH_GRAD = rgb("#009966");
 pen PEN_ID2UNIQUE = defaultpen;
 
 real R_OP = 1;
-real WIDTH_VARIABLE = 5;
+real WIDTH_VARIABLE = 5.3;
 real HEIGHT_VARIABLE = 1;
 real VERTICAL_PADDINNG = 6;
 real SPARSEIDS_WIDTH = 2;
@@ -71,7 +71,7 @@ picture getRect(string s = "", pair ptCenter=(0,0),
   path box_path = box(-d/2,d/2);
   draw(pic, box_path, pdraw);
   fill(pic, box_path, pfill);
-  label(pic,s,(0,0));
+  label(pic,s,(0,0), pdraw);
   return shift(ptCenter)*pic;
 }
 
