@@ -14,20 +14,17 @@ picture getLegend(){
     path linePath = (0,0)--(1.5,0);
     path[] lines;
     lines.push(shift(0, padding)*linePath);
-    for(int i = 0; i < 4; ++i){
+    for(int i = 0; i < 2; ++i){
         lines.push(shift(0, padding)*lines[lines.length-1]);
     }
-    draw(pic, lines[0], PEN_ID2UNIQUE);
-    draw(pic, lines[1], PEN_SPARSE_IDS);
-    draw(pic, lines[2], PEN_PULL_MODEL);
-    draw(pic, lines[3], PEN_UPDATE_MODEL);
-    draw(pic, lines[4], PEN_PUSH_GRAD);
 
-    label(pic, "$To~Unique$", midpoint(lines[0]), 5E);
-    label(pic, "$Sparse~Ids$", midpoint(lines[1]), 5E);
-    label(pic, "$Pull~Model$",midpoint(lines[2]), 5E);
-    label(pic, "$Update~Model$",midpoint(lines[3]), 5E);
-    label(pic, "$Push~Grad$", midpoint(lines[4]), 5E);
+    draw(pic, lines[0], PEN_SPARSE_IDS);
+    draw(pic, lines[1], PEN_PULL_MODEL);
+    draw(pic, lines[2], PEN_PUSH_GRAD);
+
+    label(pic, "$Lookup$", midpoint(lines[0]), 5E);
+    label(pic, "$Pull~Model$",midpoint(lines[1]), 5E);
+    label(pic, "$Push~Grad$", midpoint(lines[2]), 5E);
     return pic;
 }
 
@@ -78,11 +75,11 @@ picture getMainPic(){
     }
 
     picture uniquePic = getRect("$Unique$", 
-        shift(0, 1.2PS_Y_SPACE)*midpoint(point(SparseIDsAry[0], W)--point(EmbeddingTablesAry[3], E)),
-        4*2*SPARSEIDS_WIDTH,
+        shift(0, 0.5PS_Y_SPACE)*point(SparseIDsAry[0], N),
+        SPARSEIDS_WIDTH,
         SPARSEIDS_SLICE_HEIGHT,
         invisible,
-        PEN_UNIQUE_OP
+        PEN_WITH_DATA
         );
     add(pic, uniquePic);
 
@@ -90,7 +87,7 @@ picture getMainPic(){
     picture[] SplitEmbedingAry;
     for(int i =0;i< EmbeddingTablesAry.length; ++i){
         SplitEmbedObjsAry.push(CSparseIDs(
-            shift(-0.5paddingSparse2Embeding, 1.5*PS_Y_SPACE)*point(EmbeddingTablesAry[i], N),
+            shift(-0.5paddingSparse2Embeding, PS_Y_SPACE)*point(EmbeddingTablesAry[i], N),
             pdraw=invisible
         ));
     }   
@@ -123,32 +120,23 @@ picture getMainPic(){
     path[] updateModelAry;
     real uniqueDownPaddingRation = 0.04;
     real leftRationBegin = 0.3;
-    for(int i=0; i < EmbeddingTablesAry.length; ++i){
+
         draw(pic, 
-        point(SparseIDsAry[i],N)--relpoint(uniqeDownLine, leftRationBegin+i*uniqueDownPaddingRation), PEN_ID2UNIQUE, Arrow);
+        point(SparseIDsAry[0],N)--point(uniquePic,S), PEN_ID2UNIQUE, Arrow);
 
-        //center line of origin embedding
-        pair ptCenterUp = point(EmbeddingTablesAry[i], N);
-        pair ptCenterDown = point(EmbeddingTablesAry[i], S);
-        path centerLine = ptCenterUp--ptCenterDown;        
-        updateModelAry.push(relpoint(uniqeDownLine, 0.7+i*uniqueDownPaddingRation)--relpoint(centerLine, i*0.25));     
-        
-
-        // center line up to down
+    for(int i=0; i < EmbeddingTablesAry.length; ++i){
         pair ptCenterUp = point(SplitEmbedingAry[i], N);
         pair ptCenterDown = point(SplitEmbedingAry[i], S);
         path centerLine = ptCenterUp--ptCenterDown;
-        sparseIDsPathAry.push(relpoint(uniqeUpLine, leftRationBegin+uniqueDownPaddingRation*i)--shift(-0.45SPARSEIDS_WIDTH, 0)*relpoint(centerLine, (i+1)*0.25));
-        pullModelAry.push(relpoint(centerLine, (i+1)*0.25)--relpoint(uniqeUpLine, leftRationBegin+uniqueDownPaddingRation*i));
-        pushGradAry.push(relpoint(uniqeUpLine, leftRationBegin+uniqueDownPaddingRation*i)--shift(0.45SPARSEIDS_WIDTH, 0)*relpoint(centerLine, (i+1)*0.25));
+        sparseIDsPathAry.push(point(uniquePic, N)--shift(-0.45SPARSEIDS_WIDTH, 0)*relpoint(centerLine, (i+1)*0.25));
+        pullModelAry.push(relpoint(centerLine, (i+1)*0.25)--point(EmbeddingTablesAry[0], 0));
+        pushGradAry.push(point(boxAry[0], N)--relpoint(centerLine, (i+1)*0.25));
     }
 
     for(int i = 0; i < SplitEmbedingAry.length; ++i){
         draw(pic, sparseIDsPathAry[i], PEN_SPARSE_IDS, Arrow);
         draw(pic, pullModelAry[i], PEN_PULL_MODEL, Arrow);
         draw(pic, pushGradAry[i], PEN_PUSH_GRAD, Arrow);
-        draw(pic, updateModelAry[i], PEN_UPDATE_MODEL, Arrow);
-
         label(pic, "$GPU"+string(i)+"$", point(boxAry[i], N), S);
         label(pic, "$GPU"+string(i)+"$", point(SplitEmbedingAry[i], N), N);
         label(pic, "$IDs$", point(SparseIDsAry[i], S), S);
@@ -156,7 +144,7 @@ picture getMainPic(){
         label(pic, "$Embedding~Table$", point(SplitEmbedingAry[i], NW), W);
     }
 
-    picture legendPic = shift(-8, 0)*shift(point(uniquePic, W))*getLegend();
+    picture legendPic = shift(0, -1)*shift(point(SplitEmbedingAry[3], S))*getLegend();
     add(pic, legendPic);
     return pic;
 }
