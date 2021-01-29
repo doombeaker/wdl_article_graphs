@@ -48,7 +48,7 @@ picture getMainPic(){
 
     item = getEmbedingTable(CSparseIDs((3shiftUnitX,0), 
                             pdraw = invisible,
-                            pfill2 = PEN_BLUE_DATA));
+                            pfill3 = PEN_BLUE_DATA));
     EmbeddingTablesAry.push(item); 
 
     for(int i = 0; i < EmbeddingTablesAry.length; ++i){

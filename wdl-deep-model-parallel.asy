@@ -144,7 +144,7 @@ picture getMainPic(){
 
     path bszSparseidBrace = brace(point(SparsIDs[0], SW), point(SparsIDs[0], NW));
     path vocSizeBrace = brace(point(EmbeddingTablesAry[0], SW), point(EmbeddingTablesAry[0], NW));
-    path modelParallelSizeBrace = brace(point(cubesAry[0], SW), point(cubesAry[0], NW));
+    path modelParallelSizeBrace = brace(point(cubesAry[0], SW), shift(0, -1.3CUBE_HEIGHT)*point(cubesAry[0], NW));
     
     draw(pic, bszSparseidBrace);
     draw(pic, modelParallelSizeBrace);

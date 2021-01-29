@@ -41,45 +41,14 @@ picture getMainPic(){
     ptAry.push(pt2);
     ptAry.push(pt3);
 
-    picture[] BroadGPUsAry;
-    for(int i = 0; i < ptAry.length; ++i){
-        picture item;
-        item = getSparseIDs(CSparseIDs(ptAry[i],
-                            pdraw = invisible,
-                            pfill0 = PEN_WITH_DATA,
-                            pfill1 = PEN_WITH_DATA,
-                            pfill2 = PEN_WITH_DATA,
-                            pfill3 = PEN_WITH_DATA));
-        BroadGPUsAry.push(item);
-        add(pic, item);
-    }
-    
     for(int i = 0; i < 4; ++i){
         draw(pic, point(shift(0, SPARSEIDS_SLICE_HEIGHT)*sparseIDsCpu, N)--point(sparseIDsGpuAry[i], S), Arrow);
     }
-
-    pt0 = midpoint(point(BroadGPUsAry[1], E)--point(BroadGPUsAry[2], W));
-    pt1 = midpoint(point(sparseIDsGpu1, E)--point(sparseIDsGpu2, W));
-    pt2 = midpoint(pt0--pt1);
-    
-    picture allgatherOp = getCircle("$AllGather$", r=0.7R_OP, pt2, pfill=PEN_COMPUTE_OP);
-    add(pic, allgatherOp);
-
-    for(int i = 0; i < BroadGPUsAry.length; ++i){
-        draw(pic, point(shift(0, SPARSEIDS_SLICE_HEIGHT)*sparseIDsGpuAry[i], N)--point(allgatherOp, S), Arrow);
-        draw(pic, point(allgatherOp, N)--point(BroadGPUsAry[i], S), Arrow);
-    }
-
     label(pic, "$CPU$", point(sparseIDsCpu, N), N);
     label(pic, "$GPU0$", point(sparseIDsGpuAry[0], N), N);
     label(pic, "$GPU1$", point(sparseIDsGpuAry[1], N), N);
     label(pic, "$GPU2$", point(sparseIDsGpuAry[2], N), N);
     label(pic, "$GPU3$", point(sparseIDsGpuAry[3], N), N);
-
-    label(pic, "$GPU0$", point(BroadGPUsAry[0], N), N);
-    label(pic, "$GPU1$", point(BroadGPUsAry[1], N), N);
-    label(pic, "$GPU2$", point(BroadGPUsAry[2], N), N);
-    label(pic, "$GPU3$", point(BroadGPUsAry[3], N), N);
 
     label(pic, "$wide\_sparse\_fields$", 
                 point(sparseIDsCpu, W), W);

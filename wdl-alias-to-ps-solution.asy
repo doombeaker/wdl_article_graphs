@@ -121,15 +121,12 @@ picture getMainPic(){
     real uniqueDownPaddingRation = 0.04;
     real leftRationBegin = 0.3;
 
-        draw(pic, 
-        point(SparseIDsAry[0],N)--point(uniquePic,S), PEN_ID2UNIQUE, Arrow);
-
     for(int i=0; i < EmbeddingTablesAry.length; ++i){
         pair ptCenterUp = point(SplitEmbedingAry[i], N);
         pair ptCenterDown = point(SplitEmbedingAry[i], S);
         path centerLine = ptCenterUp--ptCenterDown;
         sparseIDsPathAry.push(point(uniquePic, N)--shift(-0.45SPARSEIDS_WIDTH, 0)*relpoint(centerLine, (i+1)*0.25));
-        pullModelAry.push(relpoint(centerLine, (i+1)*0.25)--point(EmbeddingTablesAry[0], 0));
+        pullModelAry.push(relpoint(centerLine, (i+1)*0.25)--shift(1.3SPARSEIDS_WIDTH,0)*point(boxAry[0], N));
         pushGradAry.push(point(boxAry[0], N)--relpoint(centerLine, (i+1)*0.25));
     }
 
@@ -143,6 +140,14 @@ picture getMainPic(){
         label(pic, "$Embedding$", point(EmbeddingTablesAry[i], SW), NW);
         label(pic, "$Embedding~Table$", point(SplitEmbedingAry[i], NW), W);
     }
+
+    path sparse2Uniqe = point(SparseIDsAry[0],N)--point(uniquePic,S);
+    draw(pic, sparse2Uniqe, PEN_ID2UNIQUE, Arrow);
+
+    label(pic, "1.", midpoint(sparse2Uniqe), W);
+    label(pic, "2.", midpoint(sparseIDsPathAry[0]), W);
+    label(pic, "3.", midpoint(pullModelAry[0]), W);
+    label(pic, "4.", midpoint(pushGradAry[0]), W);
 
     picture legendPic = shift(0, -1)*shift(point(SplitEmbedingAry[3], S))*getLegend();
     add(pic, legendPic);

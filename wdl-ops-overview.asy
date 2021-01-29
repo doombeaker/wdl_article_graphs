@@ -112,11 +112,11 @@ picture getMainPic(){
 
     picture deep_embedding_table = \
         getRect("$deep\_embedding\_table$", 
-        point(vars_deepops_pic_ary[1], E)+(3+WIDTH_VARIABLE/2, 0),
+        point(vars_deepops_pic_ary[0], E)+(3+WIDTH_VARIABLE/2, 0),
         pdraw=white,
         pfill=PEN_VARIABLE);
     add(pic, deep_embedding_table);
-    draw(pic, point(deep_embedding_table, W)--point(vars_deepops_pic_ary[1], E), Arrow);
+    draw(pic, point(deep_embedding_table, W)--point(vars_deepops_pic_ary[0], E), Arrow);
 
     picture dense_fields = \
         getRect("$dense\_fields$", 
