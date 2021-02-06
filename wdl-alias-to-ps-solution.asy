@@ -22,7 +22,7 @@ picture getLegend(){
     draw(pic, lines[1], PEN_PULL_MODEL);
     draw(pic, lines[2], PEN_PUSH_GRAD);
 
-    label(pic, "$Lookup$", midpoint(lines[0]), 5E);
+    label(pic, "$distribute\_gather$", midpoint(lines[0]), 5E);
     label(pic, "$Pull~Model$",midpoint(lines[1]), 5E);
     label(pic, "$Push~Grad$", midpoint(lines[2]), 5E);
     return pic;
@@ -81,13 +81,14 @@ picture getMainPic(){
         invisible,
         PEN_WITH_DATA
         );
+    label(pic, "$Unique$", point(uniquePic, 0));
     add(pic, uniquePic);
 
     CSparseIDs[] SplitEmbedObjsAry;
     picture[] SplitEmbedingAry;
     for(int i =0;i< EmbeddingTablesAry.length; ++i){
         SplitEmbedObjsAry.push(CSparseIDs(
-            shift(-0.5paddingSparse2Embeding, PS_Y_SPACE)*point(EmbeddingTablesAry[i], N),
+            shift(-0.5paddingSparse2Embeding, 1.5PS_Y_SPACE)*point(EmbeddingTablesAry[i], N),
             pdraw=invisible
         ));
     }   
@@ -97,7 +98,7 @@ picture getMainPic(){
     SplitEmbedObjsAry[3].pfill_[3]=PEN_BLUE_DATA;
 
     for(int i = 0; i < SplitEmbedObjsAry.length; ++i){
-        picture item = getSparseIDs(SplitEmbedObjsAry[i]);
+        picture item = getEmbedingTable(SplitEmbedObjsAry[i]);
         add(pic, item);
         SplitEmbedingAry.push(item);
     }
@@ -125,7 +126,7 @@ picture getMainPic(){
         pair ptCenterUp = point(SplitEmbedingAry[i], N);
         pair ptCenterDown = point(SplitEmbedingAry[i], S);
         path centerLine = ptCenterUp--ptCenterDown;
-        sparseIDsPathAry.push(point(uniquePic, N)--shift(-0.45SPARSEIDS_WIDTH, 0)*relpoint(centerLine, (i+1)*0.25));
+        sparseIDsPathAry.push(point(uniquePic, N)--shift(-0.2SPARSEIDS_WIDTH, 0)*relpoint(centerLine, (i+1)*0.25));
         pullModelAry.push(relpoint(centerLine, (i+1)*0.25)--shift(1.3SPARSEIDS_WIDTH,0)*point(boxAry[0], N));
         pushGradAry.push(point(boxAry[0], N)--relpoint(centerLine, (i+1)*0.25));
     }
@@ -136,9 +137,9 @@ picture getMainPic(){
         draw(pic, pushGradAry[i], PEN_PUSH_GRAD, Arrow);
         label(pic, "$GPU"+string(i)+"$", point(boxAry[i], N), S);
         label(pic, "$GPU"+string(i)+"$", point(SplitEmbedingAry[i], N), N);
-        label(pic, "$IDs$", point(SparseIDsAry[i], S), S);
-        label(pic, "$Embedding$", point(EmbeddingTablesAry[i], SW), NW);
-        label(pic, "$Embedding~Table$", point(SplitEmbedingAry[i], NW), W);
+        label(pic, "$sparse\_ids$", point(SparseIDsAry[i], S), S);
+        label(pic, "$embedding\_table$", point(EmbeddingTablesAry[i], SW), NW);
+        label(pic, "$embedding\_table$", point(SplitEmbedingAry[i], NW), W);
     }
 
     path sparse2Uniqe = point(SparseIDsAry[0],N)--point(uniquePic,S);

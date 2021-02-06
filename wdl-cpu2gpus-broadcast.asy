@@ -16,10 +16,10 @@ picture getMainPic(){
     pair pt2 = (0.5SPARSEIDS_WIDTH+SPARSEIDS_GPU_X_SPACE, SPARSEIDS_GPU_Y_SPACE);
     pair pt0 = shift(-SPARSEIDS_WIDTH-SPARSEIDS_GPU_X_SPACE, 0)*pt1;
     pair pt3 = shift(SPARSEIDS_WIDTH+SPARSEIDS_GPU_X_SPACE,0)*pt2;
-    picture sparseIDsGpu1 = getSparseIDs(CSparseIDs(pt1, pdraw=invisible, pfill1 = PEN_WITH_DATA));
-    picture sparseIDsGpu2 = getSparseIDs(CSparseIDs(pt2, pdraw=invisible, pfill2 = PEN_WITH_DATA));
-    picture sparseIDsGpu0 = getSparseIDs(CSparseIDs(pt0, pdraw=invisible, pfill0 = PEN_WITH_DATA));
-    picture sparseIDsGpu3 = getSparseIDs(CSparseIDs(pt3, pdraw=invisible, pfill3 = PEN_WITH_DATA));
+    picture sparseIDsGpu1 = getSparseIDs(CSparseIDs(pt1, pdraw=invisible, pfill0 = PEN_WITH_DATA, pfill1 = PEN_WITH_DATA, pfill2 = PEN_WITH_DATA, pfill3 = PEN_WITH_DATA));
+    picture sparseIDsGpu2 = getSparseIDs(CSparseIDs(pt2, pdraw=invisible, pfill0 = PEN_WITH_DATA, pfill1 = PEN_WITH_DATA, pfill2 = PEN_WITH_DATA, pfill3 = PEN_WITH_DATA));
+    picture sparseIDsGpu0 = getSparseIDs(CSparseIDs(pt0, pdraw=invisible, pfill0 = PEN_WITH_DATA, pfill1 = PEN_WITH_DATA, pfill2 = PEN_WITH_DATA, pfill3 = PEN_WITH_DATA));
+    picture sparseIDsGpu3 = getSparseIDs(CSparseIDs(pt3, pdraw=invisible, pfill0 = PEN_WITH_DATA, pfill1 = PEN_WITH_DATA, pfill2 = PEN_WITH_DATA, pfill3 = PEN_WITH_DATA));
 
     picture[] sparseIDsGpuAry;
     sparseIDsGpuAry.push(sparseIDsGpu0);
@@ -50,7 +50,7 @@ picture getMainPic(){
     label(pic, "$GPU2$", point(sparseIDsGpuAry[2], N), N);
     label(pic, "$GPU3$", point(sparseIDsGpuAry[3], N), N);
 
-    label(pic, "$wide\_sparse\_fields$", 
+    label(pic, "$sparse~ids$", 
                 point(sparseIDsCpu, W), W);
     return pic;
 }

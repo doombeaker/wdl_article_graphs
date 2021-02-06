@@ -30,8 +30,8 @@ picture getMainPic(){
     string[] wide_variables = {
         "$wide\_sparse\_fields$",
         "$wide\_sparse\_fields$",
-        "$wide\_sparse\_embedding$",
-        "$wide\_sparse\_embedding$",
+        "$wide\_embedding$",
+        "$wide\_embedding$",
         "$wide\_scores$",
         "$wide\_scores$",
         "$scores$", 

@@ -4,10 +4,10 @@ pen PEN_COMPUTE_OP = rgb("FFFFFF");
 pen PEN_TENSOR_LINE = black;
 pen PEN_WITH_DATA = rgb("#f1c232");
 pen PEN_BLANK_DATA = palegray;
-pen PEN_BLUE_DATA = rgb("#32c1f1");
+pen PEN_BLUE_DATA = RGB(173,215,255); //rgb("#32c1f1");
 pen PEN_UNIQUE_OP = rgb("#92ABF7");
 pen PEN_SPARSE_IDS = rgb("#003399")+dashed;
-pen PEN_PULL_MODEL = rgb("#FF0033")+dotted;
+pen PEN_PULL_MODEL = rgb("#FF0033")+dashed;
 pen PEN_PUSH_GRAD = rgb("#009966");
 pen PEN_ID2UNIQUE = defaultpen;
 

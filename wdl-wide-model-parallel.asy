@@ -122,7 +122,7 @@ picture getMainPic(){
     draw(pic, vocSizeBrace);
     draw(pic, dataParallelSizeBrace);
     label(pic, "$batch~size$", midpoint(bszSparseidBrace), E);
-    label(pic, "$vocab~size$", midpoint(vocSizeBrace), 0.5W);
+    label(pic, "$wide\_vocab\_size$", midpoint(vocSizeBrace), 0.5W);
     label(pic, "$batch~size$", midpoint(modelParallelSizeBrace), W);
     label(pic, "$batch~size$", midpoint(dataParallelSizeBrace), W);
 
