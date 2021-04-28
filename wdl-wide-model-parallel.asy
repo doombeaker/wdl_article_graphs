@@ -153,10 +153,10 @@ picture getMainPic(){
     pair ptMiddle = relpoint(splitter, 0.5);
     draw(pic, shift(0, -0.6)*ptMiddle--shift(0, 0.6)*ptMiddle, Arrow);
     
-    add(pic, drawVecLinesAtRel(wideEmbeddingAry[0], 1/4*0.1, 1/4*0.5, 1/4*0.45, 1/4*0.7));
-    add(pic, drawVecLinesAtRel(wideEmbeddingAry[1], 0.27, 0.3, 0.32, 0.44, 0.4, 0.33, 0.47));
-    add(pic, drawVecLinesAtRel(wideEmbeddingAry[2], 0.51, 0.55, 0.56, 0.6, 0.73));
-    add(pic, drawVecLinesAtRel(wideEmbeddingAry[3], 0.8, 0.9, 0.85, 0.97));
+    add(pic, drawVecLinesAtRel(wideEmbeddingAry[0], 1/4*0.1, 1/4*0.5, 1/4*0.45, 1/4*0.7, 0.27, 0.3, 0.32, 0.44, 0.4, 0.33, 0.47, 0.51, 0.55, 0.56, 0.6, 0.73, 0.8, 0.9, 0.85, 0.97));
+    add(pic, drawVecLinesAtRel(wideEmbeddingAry[1], 0.01, 0.02, 0.12, 0.15, 0.20, 0.23, 0.30, 0.41, 0.4, 0.33, 0.47, 0.51, 0.54, 0.56, 0.6, 0.71, 0.78, 0.9, 0.85, 0.93));
+    add(pic, drawVecLinesAtRel(wideEmbeddingAry[2], 0.51, 0.12, 0.22, 0.35, 0.40, 0.53, 0.60, 0.11, 0.2, 0.33, 0.44, 0.55, 0.56, 0.56, 0.67, 0.81, 0.98, 0.1, 0.25, 0.93));
+    add(pic, drawVecLinesAtRel(wideEmbeddingAry[3], 0.31, 0.22, 0.12, 0.35, 0.22, 0.21, 0.30, 0.41, 0.4, 0.23, 0.17, 0.61, 0.74, 0.86, 0.62, 0.71, 0.88, 0.79, 0.85, 0.97));
     
     for(int i = 0; i < EmbeddingTablesAry.length; ++i){
         draw(pic, point(GPUBoxAry[i], N)--point(wideEmbeddingAry[i], S), Arrow);
